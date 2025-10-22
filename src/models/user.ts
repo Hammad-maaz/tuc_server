@@ -12,10 +12,8 @@ export interface User {
   updatedAt?: Date;
 }
 
-// Some attributes are optional during creation (like 'id')
 interface UserOptionalAttribute extends Optional<User, "id"> {}
 
-// Extend Sequelize's Model class
 class UserModel extends Model<User, UserOptionalAttribute> implements User {
   public id!: number;
   public name!: string;

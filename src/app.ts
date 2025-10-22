@@ -1,8 +1,9 @@
 import express, { Request, Response, NextFunction } from "express";
 import helmet from "helmet";
 import cors from "cors";
-import userRoutes from "./routes/user";
 import multer from "multer";
+import userRoutes from "./routes/user";
+import sizeDefinationRoutes from "./routes/size_defination";
 
 const app = express();
 const upload = multer();
@@ -17,7 +18,13 @@ app.use(
   })
 );
 
+/// USERS
 app.use("/api/users", upload.any(), userRoutes);
+
+/// SIZE DEFINITIONS
+app.use("/api/sizeDefinations", upload.any(), sizeDefinationRoutes);
+
+/// 404 Handler
 app.use((req: Request, res: Response, next: NextFunction) => {
   let error: CustomError = new Error("Not Found");
   error.status = 404;
