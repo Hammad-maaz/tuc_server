@@ -4,6 +4,9 @@ import cors from "cors";
 import multer from "multer";
 import userRoutes from "./routes/user";
 import sizeDefinationRoutes from "./routes/size_defination";
+import schoolRoutes from "./routes/school";
+import classRoutes from "./routes/class";
+import sessionRoutes from "./routes/session";
 
 const app = express();
 const upload = multer();
@@ -23,6 +26,18 @@ app.use("/api/users", upload.any(), userRoutes);
 
 /// SIZE DEFINITIONS
 app.use("/api/sizeDefinations", upload.any(), sizeDefinationRoutes);
+
+/// SCHOOLS
+app.use("/api/schools", schoolRoutes);
+
+/// CLASSES
+app.use("/api/classes", upload.any(), classRoutes);
+
+/// SESSIONS
+app.use("/api/sessions", sessionRoutes);
+
+// Serve uploaded files statically
+app.use("/uploads", express.static("uploads"));
 
 /// 404 Handler
 app.use((req: Request, res: Response, next: NextFunction) => {
