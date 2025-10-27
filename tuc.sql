@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Oct 25, 2025 at 04:41 PM
+-- Generation Time: Oct 27, 2025 at 01:18 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -42,6 +42,58 @@ CREATE TABLE `classes` (
 
 INSERT INTO `classes` (`id`, `name`, `schoolId`, `isDeleted`, `createdAt`, `updatedAt`) VALUES
 (7, 'Grade 4', 16, 0, '2025-10-25', '2025-10-25');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orders`
+--
+
+CREATE TABLE `orders` (
+  `id` int(11) NOT NULL,
+  `schoolId` int(11) DEFAULT NULL,
+  `totalPrice` varchar(255) NOT NULL,
+  `totalQuantity` int(11) NOT NULL,
+  `isDeleted` tinyint(1) NOT NULL DEFAULT 0,
+  `createdAt` date NOT NULL DEFAULT current_timestamp(),
+  `updatedAt` date NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`id`, `schoolId`, `totalPrice`, `totalQuantity`, `isDeleted`, `createdAt`, `updatedAt`) VALUES
+(2, 15, '2000', 0, 1, '2025-10-27', '2025-10-27'),
+(3, 15, '1800', 0, 0, '2025-10-27', '2025-10-27'),
+(4, 15, '2000', 2, 0, '2025-10-27', '2025-10-27');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_details`
+--
+
+CREATE TABLE `order_details` (
+  `id` int(11) NOT NULL,
+  `orderId` int(11) NOT NULL,
+  `studentName` varchar(255) NOT NULL,
+  `sizeNumber` varchar(255) NOT NULL,
+  `gender` enum('male','female') NOT NULL,
+  `orderOf` enum('upperWear','lowerWear','both') NOT NULL,
+  `upperWear` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`upperWear`)),
+  `lowerWear` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`lowerWear`)),
+  `headCover` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`headCover`)),
+  `createdAt` datetime DEFAULT current_timestamp(),
+  `updatedAt` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `order_details`
+--
+
+INSERT INTO `order_details` (`id`, `orderId`, `studentName`, `sizeNumber`, `gender`, `orderOf`, `upperWear`, `lowerWear`, `headCover`, `createdAt`, `updatedAt`) VALUES
+(1, 3, 'Hammad', '35', 'male', 'upperWear', '{\"collar\":\"15\",\"cuff\":\"15\",\"tera\":\"15\",\"bazo\":\"15\",\"armhole\":\"15\",\"chest\":\"15\",\"boramUsed\":\"15\",\"collarUsed\":\"15\",\"buttonUsed\":\"15\",\"fabricUsed\":\"15\"}', NULL, NULL, '2025-10-27 12:15:18', '2025-10-27 12:15:18');
 
 -- --------------------------------------------------------
 
@@ -149,6 +201,20 @@ ALTER TABLE `classes`
   ADD KEY `schoolId` (`schoolId`);
 
 --
+-- Indexes for table `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `schoolId` (`schoolId`);
+
+--
+-- Indexes for table `order_details`
+--
+ALTER TABLE `order_details`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `orderId` (`orderId`);
+
+--
 -- Indexes for table `schools`
 --
 ALTER TABLE `schools`
@@ -184,6 +250,18 @@ ALTER TABLE `classes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
+-- AUTO_INCREMENT for table `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `order_details`
+--
+ALTER TABLE `order_details`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `schools`
 --
 ALTER TABLE `schools`
@@ -216,6 +294,18 @@ ALTER TABLE `users`
 --
 ALTER TABLE `classes`
   ADD CONSTRAINT `classes_ibfk_1` FOREIGN KEY (`schoolId`) REFERENCES `schools` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `orders`
+--
+ALTER TABLE `orders`
+  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`schoolId`) REFERENCES `schools` (`id`);
+
+--
+-- Constraints for table `order_details`
+--
+ALTER TABLE `order_details`
+  ADD CONSTRAINT `order_details_ibfk_1` FOREIGN KEY (`orderId`) REFERENCES `orders` (`id`);
 
 --
 -- Constraints for table `sessions`

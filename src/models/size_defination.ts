@@ -3,7 +3,7 @@ import Joi from "joi";
 import sequelize from "../middlewears/sequelize"; // Assuming this path is correct
 
 // TypeScript interfaces for the nested objects
-// Updated: boramUsed, collarUsed, and buttonUsed are now optional
+// Updated: bokramUsed, collarUsed, and buttonUsed are now optional
 export interface IUpperWearDetails {
   collar: string;
   cuff: string;
@@ -11,7 +11,7 @@ export interface IUpperWearDetails {
   bazo: string;
   armhole: string;
   chest: string;
-  boramUsed?: string;
+  bokramUsed?: string;
   collarUsed?: string;
   buttonUsed?: string;
   fabricUsed: string;
@@ -122,7 +122,7 @@ const sizeDefinationSchema = Joi.object({
     bazo: Joi.string().required(),
     armhole: Joi.string().required(),
     chest: Joi.string().required(),
-    boramUsed: Joi.string().optional(), // Changed to optional
+    bokramUsed: Joi.string().optional(), // Changed to optional
     collarUsed: Joi.string().optional(), // Changed to optional
     buttonUsed: Joi.string().optional(), // Changed to optional
     fabricUsed: Joi.string().required(),

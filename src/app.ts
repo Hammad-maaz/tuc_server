@@ -7,6 +7,8 @@ import sizeDefinationRoutes from "./routes/size_defination";
 import schoolRoutes from "./routes/school";
 import classRoutes from "./routes/class";
 import sessionRoutes from "./routes/session";
+import orderRoutes from "./routes/order";
+import orderDetailsRoutes from "./routes/order_details";
 
 const app = express();
 const upload = multer();
@@ -35,6 +37,12 @@ app.use("/api/classes", upload.any(), classRoutes);
 
 /// SESSIONS
 app.use("/api/sessions", sessionRoutes);
+
+/// ORDERS
+app.use("/api/orders", upload.any(), orderRoutes);
+
+/// ORDER DETAILS
+app.use("/api/orderDetails", upload.any(), orderDetailsRoutes);
 
 // Serve uploaded files statically
 app.use("/uploads", express.static("uploads"));
